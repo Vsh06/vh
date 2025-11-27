@@ -3,39 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Good Morning</title>
-    <!-- Tailwind CSS for easy styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lab Programs 7 & 8</title>
     <style>
-        /* Custom animation for a gentle fade-in */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f4f9;
+            --code-bg: #1e1e1e;
+            --text-color: #333;
         }
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .program-section {
+            margin-bottom: 50px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+
+        h3 {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+            margin-top: 20px;
+        }
+
+        .statement {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        /* Code Block Styling */
+        .code-wrapper {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: #dcdcdc;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        /* Copy Button Styling */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* Output Styling */
+        .output-box {
+            background-color: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
         }
     </style>
 </head>
-<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+<body>
 
-    <!-- Card Container -->
-    <div class="bg-white p-6 rounded-2xl shadow-xl max-w-lg w-full text-center animate-fade-in border border-slate-200">
+<div class="container">
+    <h1>Lab Programs 7 & 8</h1>
+
+    <div class="program-section">
+        <h2>Program 7: Exception Handling</h2>
         
-        <h1 class="text-3xl font-bold text-slate-800 mb-6 font-serif">Kya dhek raha hai</h1>
-        
-        <!-- Image Container -->
-        <div class="rounded-xl overflow-hidden shadow-md">
-            <img 
-                src="https://media.tenor.com/u6002ayqdi4AAAAM/good-morning.gif" 
-                alt="Good Morning GIF" 
-                class="w-full h-auto object-cover"
-            >
+        <h3>Program Statement</h3>
+        <div class="statement">
+            <p>Develop a function named <strong>DivExp</strong> which takes TWO parameters a, b, and returns a value c (c=a/b). Write a suitable assertion for a>0 in the function DivExp and raise an exception for when b=0. Develop a suitable program that reads two console values and calls the function DivExp.</p>
         </div>
 
-        <p class="mt-6 text-slate-500 italic">Chinalke.</p>
+        <h3>Program Code</h3>
+        <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode('code7')">Copy Code</button>
+            <pre id="code7">
+def DivExp(a,b):
+    c = a/b
+    return(c)
+
+try:
+    a = int(input("enter the first number."))
+    b = int(input("Enter the second number."))
+    
+    c = DivExp(a,b)
+    print("The quotient is", c)
+
+except:
+    print("Enter numeric value greater than zero")
+            </pre>
+        </div>
+
+        <h3>Outputs</h3>
+        <div class="output-box">
+enter the first number. 2
+Enter the second number. 2
+The quotient is 1.0
+
+enter the first number. 1
+Enter the second number. 0
+Enter numeric value greater than zero
+        </div>
     </div>
+
+    <div class="program-section">
+        <h2>Program 8: Complex Numbers</h2>
+        
+        <h3>Program Statement</h3>
+        <div class="statement">
+            <p>Define a function that takes TWO objects representing complex numbers and returns a new complex number with the sum of two complex numbers. Define a suitable class 'Complex' to represent the complex number. Develop a program to read N (N >= 2) complex numbers and to compute the addition of N complex numbers.</p>
+        </div>
+
+        <h3>Program Code</h3>
+        <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode('code8')">Copy Code</button>
+            <pre id="code8">
+class Complex():
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def add(self):
+        print(self.a + self.b)
+
+n = int(input("Enter number:"))
+
+if n >= 2:
+    for i in range(n):
+        a = complex(input("Enter first complex number:"))
+        b = complex(input("Enter second complex number:"))
+        a1 = Complex(a, b)
+        a1.add()
+else:
+    print("invalid input. Enter number greater than 2")
+            </pre>
+        </div>
+
+        <h3>Outputs</h3>
+        <div class="output-box">
+Enter number: 1
+invalid input. Enter number greater than 2
+
+Enter number: 2
+Enter first complex number: 1
+Enter second complex number: 2
+(3+0j)
+
+Enter first complex number: 2
+Enter second complex number: 5
+(7+0j)
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function copyCode(elementId) {
+        // Get the text field
+        var copyText = document.getElementById(elementId).innerText;
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText).then(function() {
+            // Visual feedback
+            var btn = document.querySelector(`button[onclick="copyCode('${elementId}')"]`);
+            var originalText = btn.innerText;
+            btn.innerText = "Copied!";
+            btn.style.backgroundColor = "#27ae60";
+            
+            setTimeout(function() {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+            }, 2000);
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+</script>
 
 </body>
 </html>
-

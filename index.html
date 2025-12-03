@@ -3,233 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab Programs 7 & 8</title>
+    <title>Vedant Haldankar - Lab Programs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --bg-color: #f4f4f9;
-            --code-bg: #1e1e1e;
-            --text-color: #333;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
         }
-
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
+        /* Syntax Highlighting Colors */
+        .token-comment { color: #6b7280; font-style: italic; }
+        .token-string { color: #a5d6ff; }
+        .token-keyword { color: #ff7b72; font-weight: bold; }
+        .token-number { color: #79c0ff; }
+        .token-func { color: #d2a8ff; }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
         }
-
-        .program-section {
-            margin-bottom: 50px;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 8px;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
         }
-
-        h2 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-
-        h3 {
-            border-left: 4px solid var(--primary-color);
-            padding-left: 10px;
-            margin-top: 20px;
-        }
-
-        .statement {
-            background-color: #e8f4fd;
-            padding: 15px;
-            border-radius: 5px;
-            font-style: italic;
-        }
-
-        /* Code Block Styling */
-        .code-wrapper {
-            position: relative;
-            margin-top: 15px;
-        }
-
-        pre {
-            background-color: var(--code-bg);
-            color: #dcdcdc;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
-        }
-
-        /* Copy Button Styling */
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 5px 10px;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
             border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s ease;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
         }
 
-        .copy-btn:hover {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
+        /* Card Hover Effect */
+        .prog-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        /* Output Styling */
-        .output-box {
-            background-color: #000;
-            color: #0f0;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            white-space: pre-wrap;
+        .prog-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body>
+<body class="text-slate-800">
 
-<div class="container">
-    <h1>Lab Programs 7 & 8</h1>
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg">
+                        <i class="fa-solid fa-user-graduate text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">Vedant <span class="text-blue-600">Haldankar</span></span>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-slate-400"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search programs (e.g., 'Fibonacci', 'Sort')..." 
+                        class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                </div>
 
-    <div class="program-section">
-        <h2>Program 7: Exception Handling</h2>
+                <div class="flex items-center gap-4">
+                    <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
+                        VH
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Search (Visible only on small screens) -->
+            <div class="md:hidden pb-4">
+                <input type="text" id="searchInputMobile" placeholder="Search programs..." 
+                    class="block w-full px-4 py-2 border border-slate-300 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <h3>Program Statement</h3>
-        <div class="statement">
-            <p>Develop a function named <strong>DivExp</strong> which takes TWO parameters a, b, and returns a value c (c=a/b). Write a suitable assertion for a>0 in the function DivExp and raise an exception for when b=0. Develop a suitable program that reads two console values and calls the function DivExp.</p>
+        <!-- Stats / Intro -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">My Lab Programs</h1>
+            <p class="text-slate-600">Python laboratory exercises collection.</p>
         </div>
 
-        <h3>Program Code</h3>
-        <div class="code-wrapper">
-            <button class="copy-btn" onclick="copyCode('code7')">Copy Code</button>
-            <pre id="code7">
-def DivExp(a,b):
-    c = a/b
-    return(c)
-
-try:
-    a = int(input("enter the first number."))
-    b = int(input("Enter the second number."))
-    
-    c = DivExp(a,b)
-    print("The quotient is", c)
-
-except:
-    print("Enter numeric value greater than zero")
-            </pre>
+        <!-- Grid Container -->
+        <div id="programs-grid" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+            <!-- Cards injected by JS -->
         </div>
 
-        <h3>Outputs</h3>
-        <div class="output-box">
-enter the first number. 2
-Enter the second number. 2
-The quotient is 1.0
+        <!-- Empty State (Hidden by default) -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                <i class="fas fa-search text-slate-400 text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900">No programs found</h3>
+            <p class="text-slate-500">Try adjusting your search terms.</p>
+        </div>
+    </main>
 
-enter the first number. 1
-Enter the second number. 0
-Enter numeric value greater than zero
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <div class="bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+            <i class="fas fa-check-circle text-green-400"></i>
+            <span class="font-medium">Code copied to clipboard!</span>
         </div>
     </div>
 
-    <div class="program-section">
-        <h2>Program 8: Complex Numbers</h2>
-        
-        <h3>Program Statement</h3>
-        <div class="statement">
-            <p>Define a function that takes TWO objects representing complex numbers and returns a new complex number with the sum of two complex numbers. Define a suitable class 'Complex' to represent the complex number. Develop a program to read N (N >= 2) complex numbers and to compute the addition of N complex numbers.</p>
-        </div>
+    <script>
+        // --- Data ---
+        const programs = [
+            {
+                id: "1a",
+                tag: "Basics",
+                title: "1a. Basic Calculator",
+                desc: "Menu-driven arithmetic operations.",
+                code: `# Program 1a: Basic Calculator
 
-        <h3>Program Code</h3>
-        <div class="code-wrapper">
-            <button class="copy-btn" onclick="copyCode('code8')">Copy Code</button>
-            <pre id="code8">
+# Get input from the user
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+
+# Show menu
+print("Choose operation:")
+print("1 - Add")
+print("2 - Subtract")
+print("3 - Multiply")
+print("4 - Divide")
+
+choice = int(input("Enter your choice (1-4): "))
+
+# Perform the operation
+if choice == 1:
+    print("Result:", num1 + num2)
+elif choice == 2:
+    print("Result:", num1 - num2)
+elif choice == 3:
+    print("Result:", num1 * num2)
+elif choice == 4:
+    if num2 != 0:
+        print("Result:", num1 / num2)
+    else:
+        print("Cannot divide by zero!")
+else:
+    print("Invalid choice")`
+            },
+            {
+                id: "1b",
+                tag: "Logic",
+                title: "1b. Senior Citizen Check",
+                desc: "Age calculation and classification.",
+                code: `# Program 1b: Senior Citizen Check
+from datetime import date
+
+perName = input("Enter the name of the person : ")
+perDOB = int(input("Enter his year of birth : "))
+
+curYear = date.today().year
+perAge = curYear - perDOB 
+
+if (perAge > 60):
+    print(perName, "aged", perAge, "years is a Senior Citizen.")
+else:
+    print(perName, "aged", perAge, "years is not a Senior Citizen.")`
+            },
+            {
+                id: "2a",
+                tag: "Loops",
+                title: "2a. Fibonacci Sequence",
+                desc: "Generate sequence of length N.",
+                code: `# Program 2a: Fibonacci Sequence
+
+# Read N from the user
+n = int(input("Enter the length of the Fibonacci sequence: "))
+
+# Initialize first two Fibonacci numbers
+a = 0
+b = 1
+count = 0
+
+# Generate and print the Fibonacci sequence
+while count < n:
+    print(a, end=" ") # Print the current number
+    a, b = b, a + b   # Move to the next number
+    count += 1
+print() # New line after loop`
+            },
+            {
+                id: "2b",
+                tag: "Data Structures",
+                title: "2b. List Operations",
+                desc: "Insert, remove, append, pop, clear.",
+                code: `# Program 2b: List Operations
+
+# Create an empty list
+my_list = []
+
+# 1. Insert an element at index 1 and 2
+my_list.insert(1, 15)
+my_list.insert(2, 20)
+print("After inserting 15 & 20 at index 1 & 2:", my_list)
+
+# 2. Remove an element (first occurrence of 15)
+if 15 in my_list:
+    my_list.remove(15)
+print("After removing 15:", my_list)
+
+# 3. Append elements to the list
+my_list.append(5)
+my_list.append(10)
+print("After appending 10 and 20:", my_list)
+
+# 4. Display the length of the list
+print("Length of the list:", len(my_list))
+
+# 5. Pop the last element
+if my_list:
+    popped_element = my_list.pop()
+    print("Popped element:", popped_element)
+    print("List after popping:", my_list)
+
+# 6. Clear the list
+my_list.clear()
+print("List after clearing:", my_list)`
+            },
+            {
+                id: "3a",
+                tag: "Statistics",
+                title: "3a. Mean & Variance",
+                desc: "Calculate stats using statistics module.",
+                code: `# Program 3a: Statistics
+import statistics
+
+a = list() # empty list
+
+# ask user to enter the values
+number = int(input("Enter the number of elements you want: ")) 
+
+print('Enter number in array: ')
+for i in range(int(number)):
+    n = input("number: ")
+    a.append(int(n)) # append method will add elements in list
+
+print("\\n Given 'n' number: ")
+print(a)
+
+m = statistics.mean(a)
+v = statistics.variance(a)
+st = statistics.stdev(a)
+
+print("\\n Mean: ", m)
+print("\\n Variance: ", v)
+print("\\n Standard Deviation: ", st)`
+            },
+            {
+                id: "3b",
+                tag: "Data Structures",
+                title: "3b. Digit Frequency",
+                desc: "Count frequency of digits in a number.",
+                code: `# Program 3b: Digit Frequency
+
+a = input("enter a multi digit number:")
+l = list(a) # converting string to list
+
+print("\\n list of given number is l=", l)
+
+freq = [l.count(ele) for ele in l]
+d = dict(zip(l, freq))
+
+print("\\n frequency of each digit is:", d)`
+            },
+            {
+                id: "4",
+                tag: "File I/O",
+                title: "4. Word Frequency File",
+                desc: "Top 10 most frequent words in a file.",
+                code: `# Program 4: 10 most frequently appearing words
+import operator 
+import itertools 
+
+fname = input("enter the file name:") 
+
+try:
+    fhand = open(fname) 
+    d1 = dict()
+    
+    # Read each line and split into words
+    for line in fhand:
+        words = line.split()
+        for word in words:
+            if word in d1:
+                d1[word] = d1[word] + 1
+            else:
+                d1[word] = 1
+
+    print("\\n Original dictionary:")
+    print(d1)
+
+    # Sort dictionary by frequency (descending order)
+    print("\\n The reverse ordered sorted dictionary ")
+    sorted_d = dict(sorted(d1.items(), key=operator.itemgetter(1), reverse=True))
+    print(sorted_d)
+
+    # Slice the sorted dictionary (top 10 words)
+    new_dict = dict(itertools.islice(sorted_d.items(), 10))
+    print("\\n Dictionary slice of first 10 items:", new_dict)
+
+except FileNotFoundError:
+    print("file name not found")
+except Exception as e:
+    print("An error occurred:", e)`
+            },
+            {
+                id: "5",
+                tag: "Sorting",
+                title: "5. Bubble Sort Marks",
+                desc: "Sort student marks from highest to lowest.",
+                code: `# Program 5: Bubble Sort Marks
+
+marks = [] # 1-D list
+
+# Reading 6 subject marks
+for i in range(6):
+    m = int(input("Enter mark {}: ".format(i+1)))
+    marks.append(m)
+
+# Bubble Sort (Descending order)
+n = len(marks)
+for i in range(n):
+    for j in range(0, n-i-1):
+        if marks[j] < marks[j+1]: # change < to > for ascending
+            marks[j], marks[j+1] = marks[j+1], marks[j]
+
+# Display sorted marks
+print("\\nMarks from Highest to Lowest:")
+for m in marks:
+    print(m)`
+            },
+            {
+                id: "6",
+                tag: "File I/O",
+                title: "6. Sort File Contents",
+                desc: "Read, sort words, and write to new file.",
+                code: `# Program 6: Sort File Contents
+
+fname = input('Enter file name/directory: ')
+
+try:
+    with open(fname, 'r') as f:
+        read = f.read()
+        word = read.split()
+    
+    l = []
+    for i in word:
+        l.append(i)
+    
+    l.sort()
+    
+    wname = input('Enter file name to create: ')
+    
+    with open(wname, 'w') as w:
+        for j in l:
+            w.write(j)
+            w.write('\\n')
+            
+    print("File\\t" + wname + "\\tCreated Successfully")
+
+except FileNotFoundError:
+    print("Input file not found.")`
+            },
+            {
+                id: "7",
+                tag: "Functions",
+                title: "7. DivExp Function",
+                desc: "Exception handling and Assertions.",
+                code: `# Program 7: DivExp Function
+
+def DivExp(a, b):
+    # Suitable assertion for a > 0
+    assert a > 0, "a must be greater than 0"
+    c = a / b
+    return c
+
+try:
+    a = int(input("enter the first number: "))
+    b = int(input("Enter the second number: "))
+    
+    c = DivExp(a, b)
+    print("The quotient is", c)
+
+except AssertionError as ae:
+    print("Assertion Error:", ae)
+    print("Enter numeric value greater than zero")
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+except ValueError:
+    print("Invalid input. Please enter integers.")`
+            },
+            {
+                id: "8",
+                tag: "OOP",
+                title: "8. Complex Numbers",
+                desc: "Class to sum N complex numbers.",
+                code: `# Program 8: Complex Numbers
+
 class Complex():
     def __init__(self, a, b):
         self.a = a
         self.b = b
-
+    
     def add(self):
         print(self.a + self.b)
 
-n = int(input("Enter number:"))
+n = int(input("Enter number: "))
 
 if n >= 2:
     for i in range(n):
-        a = complex(input("Enter first complex number:"))
-        b = complex(input("Enter second complex number:"))
-        a1 = Complex(a, b)
-        a1.add()
-else:
-    print("invalid input. Enter number greater than 2")
-            </pre>
-        </div>
-
-        <h3>Outputs</h3>
-        <div class="output-box">
-Enter number: 1
-invalid input. Enter number greater than 2
-
-Enter number: 2
-Enter first complex number: 1
-Enter second complex number: 2
-(3+0j)
-
-Enter first complex number: 2
-Enter second complex number: 5
-(7+0j)
-        </div>
-    </div>
-
-</div>
-
-<script>
-    function copyCode(elementId) {
-        // Get the text field
-        var copyText = document.getElementById(elementId).innerText;
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyText).then(function() {
-            // Visual feedback
-            var btn = document.querySelector(`button[onclick="copyCode('${elementId}')"]`);
-            var originalText = btn.innerText;
-            btn.innerText = "Copied!";
-            btn.style.backgroundColor = "#27ae60";
+        # Note: complex() inputs should be in format like 1+2j
+        try:
+            val1 = input("Enter first complex number (e.g., 1+2j): ")
+            a = complex(val1)
+            val2 = input("Enter second complex number (e.g., 3+4j): ")
+            b = complex(val2)
             
-            setTimeout(function() {
-                btn.innerText = originalText;
-                btn.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }, 2000);
-        }, function(err) {
-            console.error('Async: Could not copy text: ', err);
-        });
-    }
-</script>
+            a1 = Complex(a, b)
+            print("Sum: ", end="")
+            a1.add()
+        except ValueError:
+            print("Invalid complex number format.")
+else:
+    print("invalid input. Enter number greater than 2")`
+            }
+        ];
 
+        // --- Logic ---
+
+        // Simple Regex-based Python Syntax Highlighting
+        function highlightCode(code) {
+            code = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            
+            // Strings
+            code = code.replace(/(".*?"|'.*?')/g, '<span class="token-string">$1</span>');
+            
+            // Comments (Order matters, do this after strings but check for conflict)
+            // A simple approach for single line comments:
+            code = code.replace(/(#.*$)/gm, '<span class="token-comment">$1</span>');
+
+            // Keywords
+            const keywords = ["def", "class", "import", "from", "if", "elif", "else", "while", "for", "in", "try", "except", "return", "print", "int", "float", "input", "len", "open", "with", "as"];
+            keywords.forEach(kw => {
+                const regex = new RegExp(`\\b(${kw})\\b`, 'g');
+                // Avoid replacing inside html tags we just added
+                code = code.replace(regex, '<span class="token-keyword">$1</span>');
+            });
+            
+            return code;
+        }
+
+        const grid = document.getElementById('programs-grid');
+        const emptyState = document.getElementById('empty-state');
+        const searchInput = document.getElementById('searchInput');
+        const searchInputMobile = document.getElementById('searchInputMobile');
+
+        function renderPrograms(filter = "") {
+            grid.innerHTML = "";
+            let count = 0;
+
+            programs.forEach(prog => {
+                if (prog.title.toLowerCase().includes(filter.toLowerCase()) || 
+                    prog.code.toLowerCase().includes(filter.toLowerCase())) {
+                    
+                    count++;
+                    const highlighted = highlightCode(prog.code);
+                    
+                    const card = document.createElement('div');
+                    card.className = "prog-card bg-white rounded-xl overflow-hidden border border-slate-200 flex flex-col h-full";
+                    card.innerHTML = `
+                        <div class="p-5 border-b border-slate-100">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider rounded-md">${prog.tag}</span>
+                                <button onclick="copyToClipboard(this, \`${prog.id}\`)" class="text-slate-400 hover:text-blue-600 transition-colors p-1" title="Copy Code">
+                                    <i class="far fa-copy text-lg"></i>
+                                </button>
+                            </div>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">${prog.title}</h2>
+                            <p class="text-slate-500 text-sm mt-1">${prog.desc}</p>
+                        </div>
+                        <div class="relative flex-grow bg-[#0d1117] group">
+                            <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                <button onclick="copyToClipboard(this, \`${prog.id}\`)" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded shadow-lg flex items-center gap-1 transition-colors">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <pre class="code-font text-xs md:text-sm p-4 overflow-x-auto h-64 custom-scrollbar text-slate-300 leading-relaxed">${highlighted}</pre>
+                            <!-- Hidden textarea for copying -->
+                            <textarea id="raw-${prog.id}" class="hidden">${prog.code}</textarea>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+
+            if (count === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        // Copy Function
+        function copyToClipboard(btn, id) {
+            const rawText = document.getElementById(`raw-${id}`).value;
+            navigator.clipboard.writeText(rawText).then(() => {
+                showToast();
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback
+                const textArea = document.createElement("textarea");
+                textArea.value = rawText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("Copy");
+                textArea.remove();
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        // Listeners
+        searchInput.addEventListener('input', (e) => renderPrograms(e.target.value));
+        searchInputMobile.addEventListener('input', (e) => renderPrograms(e.target.value));
+
+        // Init
+        renderPrograms();
+
+    </script>
 </body>
 </html>
+
+

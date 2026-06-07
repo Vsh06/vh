@@ -3,27 +3,1133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vedant Haldankar | Portfolio</title>
+    <title>C Programming Lab Manual</title>
     <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --sidebar-bg: #0f172a;
+            --sidebar-text: #94a3b8;
+            --sidebar-hover: #1e293b;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --code-bg: #1e1e1e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             display: flex;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Pure HTML Password Engine Logic via CSS */
+        #auth-trigger {
+            display: none;
+        }
+
+        /* The Gatekeeper: Hide everything by default except the login portal */
+        .sidebar, .main-content {
+            display: none !important;
+        }
+
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #020617;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
+            color: #fff;
         }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+
+        .auth-card {
+            background: #0f172a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* Pure HTML Validation Pattern matching: "2AG25AD" */
+        .pass-field {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            outline: none;
+            text-align: center;
+        }
+
+        /* The Magic Unlock Action Button */
+        .unlock-label {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #475569; /* Gray/locked appearance by default */
+            color: rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: not-allowed;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        /* Dynamic HTML Input verification checking: 
+           Only when the text field value EXACTLY matches "2AG25AD", 
+           make the Unlock button clickable and turn it Blue! */
+        .pass-field[value="2AG25AD"] + .unlock-label {
+            background: var(--primary);
+            color: #fff;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .pass-field[value="2AG25AD"] + .unlock-label:hover {
+            background: var(--primary-hover);
+        }
+
+        /* WHEN THE HIDDEN CHECKBOX IS DYNAMICALLY TRIGGERED: 
+           Collapse the password overlay window and show the dashboard layouts! */
+        #auth-trigger:checked ~ #password-overlay {
+            display: none !important;
+        }
+
+        #auth-trigger:checked ~ .sidebar {
+            display: flex !important;
+        }
+
+        #auth-trigger:checked ~ .main-content {
+            display: block !important;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 320px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            flex-direction: column;
+            height: 100%;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            background: #020617;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: #f8fafc;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 10px;
+        }
+
+        .menu-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin: 20px 0 8px 12px;
+            font-weight: 700;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 10px 12px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.2s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+        }
+
+        /* Pure CSS Content Navigation Tab System using :target pseudo selector */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        .experiment-section {
+            display: none;
+        }
+
+        /* Default visible section or matched URL route target */
+        #parta-1, .experiment-section:target {
+            display: block !important;
+        }
+
+        /* Hide the default section if another active target exists */
+        .experiment-section:target ~ #parta-1:not(:target) {
+            display: none !important;
+        }
+
+        .doc-header {
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .doc-header h1 {
+            font-size: 1.75rem;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #dbeafe;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .badge.part-b {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .description-box {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .description-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: #0f172a;
+        }
+
+        .description-box p {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .code-wrapper {
+            position: relative;
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        .code-lang {
+            color: #aaa;
+            font-size: 0.8rem;
+            font-family: monospace;
+            text-transform: uppercase;
+        }
+
+        .code-wrapper pre {
+            margin: 0;
+            padding: 24px;
+            overflow-x: auto;
+            color: #d4d4d4;
+            font-family: 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            user-select: all; /* Allows quick selection when clicked since JS Copy is removed */
+        }
+
+        .select-tip {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
-    <h1>VEDANT HALDANKAR</h1>
+    <input type="checkbox" id="auth-trigger">
 
+    <div id="password-overlay">
+        <div class="auth-card">
+            <h2 style="margin-bottom: 10px; color: #f8fafc; font-size: 1.5rem;">Secure Access Portal</h2>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 24px;">Type password and press tab/click outside to illuminate the unlock controller button.</p>
+            
+            <input type="text" class="pass-field" placeholder="Enter security password" oninput="this.setAttribute('value', this.value)">
+            
+            <label for="auth-trigger" class="unlock-label">Unlock Portal</label>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>C Programming Lab</h2>
+            <p>Course Code: 1BPOPL107/207</p>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-category">Part A - Conventional</div>
+            <a href="#parta-1">1. Straight-Line Distance</a>
+            <a href="#parta-2">2. Student Grade Grid</a>
+            <a href="#parta-3">3. KYC Switch Verification</a>
+            <a href="#parta-4">4. Quadratic Equation Roots</a>
+            <a href="#parta-5">5. Taylor Series sin(x)</a>
+            <a href="#parta-6">6. String Match (strstr)</a>
+            <a href="#parta-6alt">6 (Alt). String Match (Manual)</a>
+            <a href="#parta-7">7. Subject Pass Routine</a>
+            <a href="#parta-8">8. Pointer Balance Swap</a>
+
+            <div class="menu-category">Part B - Open-Ended</div>
+            <a href="#partb-1">1. Bookshelf Binary Search</a>
+            <a href="#partb-2">2. Race Score Bubble Sort</a>
+            <a href="#partb-3">3. Matrix Warehouse Income</a>
+            <a href="#partb-4">4. Manual Contact Manager</a>
+            <a href="#partb-5">5. Value vs Reference Swap</a>
+            <a href="#partb-6">6. Struct Library Array</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div id="parta-1" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 1</span>
+                <h1>Straight-Line Distance Between Coordinates</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>A robot needs to find how far it must travel between two points on a 2D plane. Develop a C program to calculate the straight-line distance between the given coordinates.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main()
+{
+    float x1, y1, x2, y2, distance;
+
+    printf("Enter coordinates of first point (x1 y1): ");
+    scanf("%f %f", &x1, &y1);
+
+    printf("Enter coordinates of second point (x2 y2): ");
+    scanf("%f %f", &x2, &y2);
+
+    distance = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+
+    printf("Distance between the two points = %.2f\n", distance);
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-2" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 2</span>
+                <h1>Student Grade Calculation Ladder</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Develop a C program that takes a student's marks as input and displays their grade based on predefined evaluation margins using an if-else ladder control pattern efficiently.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int marks;
+
+    printf("Enter student's marks: ");
+    scanf("%d", &marks);
+
+    if (marks &gt;= 90)
+    {
+        printf("Grade A\n");
+    }
+    else if (marks &gt;= 75)
+    {
+        printf("Grade B\n");
+    }
+    else if (marks &gt;= 60)
+    {
+        printf("Grade C\n");
+    }
+    else if (marks &gt;= 50)
+    {
+        printf("Grade D\n");
+    }
+    else
+    {
+        printf("Grade F\n");
+    }
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-3" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 3</span>
+                <h1>KYC Switch Verification Setup</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Develop a C program that takes a unique identification input like PAN Number, AADHAR Number, APAAR Id, Driving License, Passport and checks it against a set of stored KYC records using an appropriate switch control pipeline.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    long long id;
+    int choice;
+
+    /* Stored KYC Records (Example Values) */
+    long long PAN = 123456;
+    long long AADHAR = 987654;
+    long long APAAR = 456789;
+    long long DL = 112233;
+    long long PASSPORT = 778899;
+
+    printf("KYC Verification System\n");
+    printf("1. PAN Number\n");
+    printf("2. AADHAR Number\n");
+    printf("3. APAAR ID\n");
+    printf("4. Driving License\n");
+    printf("5. Passport\n");
+    printf("Select ID Type: ");
+    scanf("%d", &choice);
+
+    printf("Enter Identification Number: ");
+    scanf("%lld", &id);
+
+    switch (choice)
+    {
+        case 1:
+            if (id == PAN)
+                printf("Individual Verified using PAN\n");
+            else
+                printf("Verification Failed\n");
+            break;
+        case 2:
+            if (id == AADHAR)
+                printf("Individual Verified using AADHAR\n");
+            else
+                printf("Verification Failed\n");
+            break;
+        case 3:
+            if (id == APAAR)
+                printf("Individual Verified using APAAR ID\n");
+            else
+                printf("Verification Failed\n");
+            break;
+        case 4:
+            if (id == DL)
+                printf("Individual Verified using Driving License\n");
+            else
+                printf("Verification Failed\n");
+            break;
+        case 5:
+            if (id == PASSPORT)
+                printf("Individual Verified using Passport\n");
+            else
+                printf("Verification Failed\n");
+            break;
+        default:
+            printf("Invalid ID Type Selected\n");
+    }
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-4" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 4</span>
+                <h1>Roots of a Quadratic Equation</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>A math app needs to determine the type of roots for a quadratic equation based on user input. Develop a C program to calculate and display the roots based on the given coefficients.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main()
+{
+    float a, b, c, discriminant, root1, root2, realPart, imagPart;
+
+    printf("Enter coefficients a, b and c: ");
+    scanf("%f %f %f", &a, &b, &c);
+
+    discriminant = b*b - 4*a*c;
+
+    if (discriminant &gt; 0)
+    {
+        root1 = (-b + sqrt(discriminant)) / (2*a);
+        root2 = (-b - sqrt(discriminant)) / (2*a);
+        printf("Roots are real and distinct\n");
+        printf("Root1 = %.2f\nRoot2 = %.2f\n", root1, root2);
+    }
+    else if (discriminant == 0)
+    {
+        root1 = root2 = -b / (2*a);
+        printf("Roots are real and equal\n");
+        printf("Root1 = Root2 = %.2f\n", root1);
+    }
+    else
+    {
+        realPart = -b / (2*a);
+        imagPart = sqrt(-discriminant) / (2*a);
+        printf("Roots are complex\n");
+        printf("Root1 = %.2f + %.2fi\n", realPart, imagPart);
+        printf("Root2 = %.2f - %.2fi\n", realPart, imagPart);
+    }
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-5" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 5</span>
+                <h1>Taylor Series Evaluation of sin(x)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>A sensor in a robotic arm needs to calculate the angle of rotation in real-time, but the hardware doesn't support built-in trigonometric functions. Develop a C program to approximate the value of sin(x) using a series expansion method.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    float x, term, sum;
+    int n, i;
+
+    printf("Enter the value of x (in radians): ");
+    scanf("%f", &x);
+
+    printf("Enter number of terms: ");
+    scanf("%d", &n);
+
+    term = x;
+    sum = x;
+
+    for(i = 1; i &lt; n; i++)
+    {
+        term = -term * x * x / ((2 * i) * (2 * i + 1));
+        sum = sum + term;
+    }
+
+    printf("Approximate value of sin(%.2f) = %.6f\n", x, sum);
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-6" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 6</span>
+                <h1>Keyword Search Routine (With strstr)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Develop a C program that accepts a course description string and a keyword from the user. Search whether the keyword exists within the course description using appropriate library string metrics.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+    char description[200];
+    char keyword[50];
+
+    printf("Enter course description: ");
+    fgets(description, sizeof(description), stdin);
+
+    printf("Enter keyword to search: ");
+    scanf("%s", keyword);
+
+    if (strstr(description, keyword) != NULL)
+    {
+        printf("Keyword '%s' found in the course description.\n", keyword);
+    }
+    else
+    {
+        printf("Keyword '%s' not found in the course description.\n", keyword);
+    }
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-6alt" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 6 Alternative</span>
+                <h1>Keyword Search Routine (Without strstr)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Develop a C program to track patterns and find match targets across an index matrix sequence without relying on library text search utilities manually.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+    char description[200], keyword[50];
+    int i, j, found = 0;
+
+    printf("Enter course description: ");
+    fgets(description, sizeof(description), stdin);
+
+    printf("Enter keyword to search: ");
+    scanf("%s", keyword);
+
+    int len1 = strlen(description);
+    int len2 = strlen(keyword);
+
+    for(i = 0; i &lt;= len1 - len2; i++)
+    {
+        for(j = 0; j &lt; len2; j++)
+        {
+            if (description[i + j] != keyword[j])
+                break;
+        }
+        if(j == len2)
+        {
+            found = 1;
+            break;
+        }
+    }
+
+    if (found)
+        printf("Keyword '%s' found in the course description.\n", keyword);
+    else
+        printf("Keyword '%s' not found in the course description.\n", keyword);
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-7" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 7</span>
+                <h1>Subject Pass Evaluation Function</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Develop a C program that takes marks for three subjects as input. Use a function to check if the student has passed (minimum 40 marks in each subject) and calculate the average score values.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+/* Function to check pass or fail */
+int checkPass(int m1, int m2, int m3)
+{
+    if (m1 &gt;= 40 && m2 &gt;= 40 && m3 &gt;= 40)
+        return 1; // Pass
+    else
+        return 0; // Fail
+}
+
+int main()
+{
+    int m1, m2, m3;
+    float average;
+
+    printf("Enter marks for three subjects: ");
+    scanf("%d %d %d", &m1, &m2, &m3);
+
+    average = (m1 + m2 + m3) / 3.0;
+    printf("Average Marks = %.2f\n", average);
+
+    if (checkPass(m1, m2, m3))
+        printf("Result: PASS\n");
+    else
+        printf("Result: FAIL\n");
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="parta-8" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge">Part A - Program 8</span>
+                <h1>ATM Balance Swap Using Pointers</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>In an ATM system, two account balances need to be swapped temporarily for validation. Develop a C program that accepts two balances and uses a function with pointers to swap them.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+/* Function to swap two balances using pointers */
+void swap(float *a, float *b)
+{
+    float temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main()
+{
+    float balance1, balance2;
+
+    printf("Enter first account balance: ");
+    scanf("%f", &balance1);
+
+    printf("Enter second account balance: ");
+    scanf("%f", &balance2);
+
+    printf("\nBefore Swapping:\n");
+    printf("Balance1 = %.2f\n", balance1);
+    printf("Balance2 = %.2f\n", balance2);
+
+    swap(&balance1, &balance2);
+
+    printf("\nAfter Swapping:\n");
+    printf("Balance1 = %.2f\n", balance1);
+    printf("Balance2 = %.2f\n", balance2);
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="partb-1" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge part-b">Part B - Experiment 1</span>
+                <h1>Digital Bookshelf System (Binary Search)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>A college library has a digital bookshelf system organized in ascending order of Book IDs. Develop a C Program to quickly find whether a book with a specific Book ID is available in the shelf using Binary Search.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+// Binary Search Function
+int binarySearch(int books[], int n, int key)
+{
+    int low = 0, high = n - 1, mid;
+    while (low &lt;= high) {
+        mid = (low + high) / 2;
+        if (books[mid] == key)
+            return mid; // Book found
+        else if (books[mid] &lt; key)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1; // Book not found
+}
+
+int main()
+{
+    int books[100], n, i, key, result;
+
+    printf("Enter number of books: ");
+    scanf("%d", &n);
+
+    printf("Enter Book IDs in ascending order:\n");
+    for(i = 0; i &lt; n; i++) {
+        scanf("%d", &books[i]);
+    }
+
+    printf("Enter Book ID to search: ");
+    scanf("%d", &key);
+
+    result = binarySearch(books, n, key);
+    if (result != -1)
+        printf("Book found at position %d (index %d)\n", result + 1, result);
+    else
+        printf("Book not available in the shelf.\n");
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="partb-2" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge part-b">Part B - Experiment 2</span>
+                <h1>Race Score Sorter (Bubble Sort Descending)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>A sports teacher wants the scores of a 100-meter race arranged in descending order (from highest to lowest). Develop a C program to sort the scores using Bubble Sort.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int scores[100], n, i, j, temp;
+
+    printf("Enter number of students: ");
+    scanf("%d", &n);
+
+    printf("Enter the scores:\n");
+    for(i = 0; i &lt; n; i++) {
+        scanf("%d", &scores[i]);
+    }
+
+    // Bubble Sort in Descending Order
+    for (i = 0; i &lt; n - 1; i++) {
+        for(j = 0; j &lt; n - i - 1; j++) {
+            if (scores[j] &lt; scores[j + 1]) {
+                temp = scores[j];
+                scores[j] = scores[j + 1];
+                scores[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("Scores in descending order:\n");
+    for(i = 0; i &lt; n; i++) {
+        printf("%d ", scores[i]);
+    }
+    printf("\n");
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="partb-3" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge part-b">Part B - Experiment 3</span>
+                <h1>Warehouse Total Revenue Calculation</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Combine a dataset of shipped product quantities per warehouse branch with product unit values to process and compute total revenue indicators per operational branch.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int b, p, i, j;
+    printf("Enter number of branches: ");
+    scanf("%d", &b);
+    printf("Enter number of products: ");
+    scanf("%d", &p);
+
+    int quantity[b][p];
+    int price[p];
+    int total[b];
+
+    // Input quantity shipped
+    printf("Enter quantity of products shipped by each branch:\n");
+    for(i = 0; i &lt; b; i++)
+    {
+        printf("Branch %d:\n", i + 1);
+        for(j = 0; j &lt; p; j++) {
+            scanf("%d", &quantity[i][j]);
+        }
+    }
+
+    // Input price per product
+    printf("Enter revenue per unit for each product:\n");
+    for(j = 0; j &lt; p; j++) {
+        scanf("%d", &price[j]);
+    }
+
+    // Calculate total revenue per branch
+    for(i = 0; i &lt; b; i++) {
+        total[i] = 0;
+        for(j = 0; j &lt; p; j++)
+        {
+            total[i] += quantity[i][j] * price[j];
+        }
+    }
+
+    // Display results
+    printf("\nTotal Revenue Generated by Each Branch:\n");
+    for(i = 0; i &lt; b; i++) {
+        printf("Branch %d: %d\n", i + 1, total[i]);
+    }
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="partb-4" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge part-b">Part B - Experiment 4</span>
+                <h1>Mobile Contact Manager (No string.h)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>A basic contact manager stores first and last names separately. Join them manually to create full names and compute lengths without using built-in string functions.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n, i, j, k;
+    int maxWidth = 20; // screen width limit
+
+    printf("Enter number of contacts: ");
+    scanf("%d", &n);
+
+    char first[n][50], last[n][50], full[n][100];
+    int length[n];
+
+    for (i = 0; i &lt; n; i++) {
+        printf("\nEnter first name: ");
+        scanf("%s", first[i]);
+        printf("Enter last name: ");
+        scanf("%s", last[i]);
+
+        // Join first and last name manually
+        j = 0;
+        k = 0;
+        
+        // Copy first name
+        while (first[i][j] != '\0') {
+            full[i][k] = first[i][j];
+            j++;
+            k++;
+        }
+
+        // Add space
+        full[i][k] = ' ';
+        k++;
+
+        // Copy last name
+        j = 0;
+        while (last[i][j] != '\0') {
+            full[i][k] = last[i][j];
+            j++;
+            k++;
+        }
+        // End string
+        full[i][k] = '\0';
+
+        // Calculate length manually
+        length[i] = 0;
+        while (full[i][length[i]] != '\0') {
+            length[i]++;
+        }
+    }
+
+    // Display results
+    printf("\nContact List:\n");
+    for (i = 0; i &lt; n; i++)
+    {
+        printf("%s (Length: %d) - ", full[i], length[i]);
+        if (length[i] &lt;= maxWidth)
+            printf("Fits on screen\n");
+        else
+            printf("Does NOT fit on screen\n");
+    }
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="partb-5" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge part-b">Part B - Experiment 5</span>
+                <h1>Currency Booth Swap Simulation</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Develop a C program that simulates value preview swapping using Call by Value, and updates structural modifications natively using Call by Reference.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+
+// Call by Value (Simulation - does not change original values)
+void simulateSwap(float a, float b) {
+    float temp;
+    temp = a;
+    a = b;
+    b = temp;
+    printf("\n[Simulation - Call by Value]");
+    printf("\nAfter swap preview: Currency1 = %.2f, Currency2 = %.2f\n", a, b);
+}
+
+// Call by Reference (Actual swap - changes original values)
+void actualSwap(float *a, float *b) {
+    float temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+    printf("\n[Actual Swap - Call by Reference]");
+    printf("\nAfter real swap: Currency1 = %.2f, Currency2 = %.2f\n", *a, *b);
+}
+
+int main()
+{
+    float currency1, currency2;
+
+    printf("Enter amount in Currency 1: ");
+    scanf("%f", &currency1);
+    printf("Enter amount in Currency 2: ");
+    scanf("%f", &currency2);
+
+    printf("\nOriginal Values:");
+    printf("\nCurrency1 = %.2f, Currency2 = %.2f\n", currency1, currency2);
+
+    // Simulation (no change to original)
+    simulateSwap(currency1, currency2);
+    printf("\nAfter Simulation (Original remains same):");
+    printf("\nCurrency1 = %.2f, Currency2 = %.2f\n", currency1, currency2);
+
+    // Actual Swap (values get changed)
+    actualSwap(&currency1, &currency2);
+    printf("\nAfter Actual Swap (Values updated):");
+    printf("\nCurrency1 = %.2f, Currency2 = %.2f\n", currency1, currency2);
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <div id="partb-6" class="experiment-section">
+            <div class="doc-header">
+                <span class="badge part-b">Part B - Experiment 6</span>
+                <h1>Library Inventory Manager (Array of Structures)</h1>
+            </div>
+            <div class="description-box">
+                <h3>Problem Statement</h3>
+                <p>Design a structure that can hold details of library books including title, author, and year of publication, and process a structural block listing array cleanly.</p>
+            </div>
+            <div class="code-wrapper">
+                <div class="code-header"><span class="code-lang">c</span><span style="color:#64748b; font-size:0.8rem;">Click inside to Select All</span></div>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+// Define structure for a book
+struct Book {
+    char title[100];
+    char author[100];
+    int year;
+};
+
+int main()
+{
+    int n, i;
+
+    printf("Enter number of books: ");
+    scanf("%d", &n);
+    getchar(); // Clear trailing newline from buffer
+
+    struct Book library[n];
+
+    // Input book details
+    for (i = 0; i &lt; n; i++) {
+        printf("\nEnter details for Book %d\n", i + 1);
+        printf("Title: ");
+        fgets(library[i].title, sizeof(library[i].title), stdin);
+        library[i].title[strcspn(library[i].title, "\n")] = 0; // Remove newline
+
+        printf("Author: ");
+        fgets(library[i].author, sizeof(library[i].author), stdin);
+        library[i].author[strcspn(library[i].author, "\n")] = 0; // Remove newline
+
+        printf("Year of Publication: ");
+        scanf("%d", &library[i].year);
+        getchar(); // Clear buffer
+    }
+
+    // Display book details
+    printf("\n--- Library Book List ---\n");
+    for (i = 0; i &lt; n; i++) {
+        printf("\nBook %d\n", i + 1);
+        printf("Title : %s\n", library[i].title);
+        printf("Author: %s\n", library[i].author);
+        printf("Year  : %d\n", library[i].year);
+    }
+
+    return 0;
+}</code></pre>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
